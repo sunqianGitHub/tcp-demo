@@ -1,7 +1,5 @@
 /**
- * This module implements the integration tests for TCP°¢read and write file°¢uart and GPIO.
- *
- * Copyright (C) Shenzhen Fibocom Wireless Inc.
+ * This module implements the integration tests for TCP„ÄÅread and write file„ÄÅuart and GPIO.
  *
  */
 #include <sys/types.h>
@@ -20,13 +18,13 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#define SERV_PORT (5050)//ip∂Àø⁄∫≈
-#define SER_IP "127.0.0.1"//IPµÿ÷∑
+#define SERV_PORT (5050)//ipÁ´ØÂè£Âè∑
+#define SER_IP "127.0.0.1"//IPÂú∞ÂùÄ
 
 
 static int server(void)
 {
-    /* 1.¥¥Ω®Ã◊Ω”◊÷ */
+    /* 1.ÂàõÂª∫Â•óÊé•Â≠ó */
 	int fd = -1, ret = -1, serv_fd = -1;
 	fd = socket(AF_INET, SOCK_STREAM, 0);
     if(-1 == fd)
@@ -35,14 +33,14 @@ static int server(void)
         return -1;
     }
     
-    /* 2.∞Û∂®∂Àø⁄∫≈ */
+    /* 2.ÁªëÂÆöÁ´ØÂè£Âè∑ */
     
-    //¥¥Ω®sockaddr_inΩ·ππÃÂ±‰¡ø
+    //ÂàõÂª∫sockaddr_inÁªìÊûÑ‰ΩìÂèòÈáè
     struct sockaddr_in serv_addr;
     memset(&serv_addr, 0, sizeof(serv_addr));
-    serv_addr.sin_family = AF_INET;  // π”√IPv4µÿ÷∑
-    serv_addr.sin_addr.s_addr = inet_addr(SER_IP);  //∞—µ„∑÷∏Ò ΩµƒIPµÿ÷∑Ω¯––◊™ªª
-    serv_addr.sin_port = htons(SERV_PORT);  //∞—±æµÿ◊÷Ω⁄–Úµƒ∂Àø⁄∫≈◊™ªªŒ™Õ¯¬Á◊÷Ω⁄–Ú
+    serv_addr.sin_family = AF_INET;  //‰ΩøÁî®IPv4Âú∞ÂùÄ
+    serv_addr.sin_addr.s_addr = inet_addr(SER_IP);  //ÊääÁÇπÂàÜÊ†ºÂºèÁöÑIPÂú∞ÂùÄËøõË°åËΩ¨Êç¢
+    serv_addr.sin_port = htons(SERV_PORT);  //ÊääÊú¨Âú∞Â≠óËäÇÂ∫èÁöÑÁ´ØÂè£Âè∑ËΩ¨Êç¢‰∏∫ÁΩëÁªúÂ≠óËäÇÂ∫è
     
     ret = bind(fd, (struct sockaddr *)&serv_addr, sizeof(struct sockaddr));
     if(-1 == ret)
@@ -51,7 +49,7 @@ static int server(void)
     }
 
     
-    /* 3.∂‘Ã◊Ω”◊÷Ω¯––º‡Ã˝,…Ë÷√◊Ó∂‡‘ –Ì1∏ˆøÕªß∂À¡¨Ω” */
+    /* 3.ÂØπÂ•óÊé•Â≠óËøõË°åÁõëÂê¨,ËÆæÁΩÆÊúÄÂ§öÂÖÅËÆ∏1‰∏™ÂÆ¢Êà∑Á´ØËøûÊé• */
     ret = listen(fd, 1);
     if(-1 == ret)
     {
@@ -59,7 +57,7 @@ static int server(void)
     }
     printf("server listen success\n");
     
-    /* 4.◊Ë»˚µ»¥˝øÕªß∂À¡¨Ω” */
+    /* 4.ÈòªÂ°ûÁ≠âÂæÖÂÆ¢Êà∑Á´ØËøûÊé• */
     socklen_t socklen;
     serv_fd = accept(fd, (struct sockaddr *)&serv_addr,  &socklen);
     if(-1 == serv_fd)
@@ -68,7 +66,7 @@ static int server(void)
     }
     printf("server accept success\n");
 
-    /* 5.Ω” ’øÕªß∂À∑¢ÀÕµƒ ˝æ›≤¢¥Ú”°≥ˆ¿¥ */
+    /* 5.Êé•Êî∂ÂÆ¢Êà∑Á´ØÂèëÈÄÅÁöÑÊï∞ÊçÆÂπ∂ÊâìÂç∞Âá∫Êù• */
     char buf[1024];
     while(1)
     {
@@ -82,7 +80,7 @@ static int server(void)
 
     }
 
-    /* 6. ∞¥–Ëπÿ±’Œƒº˛√Ë ˆ∑˚∫ÕÕ¯¬ÁÃ◊Ω”◊÷ */
+    /* 6. ÊåâÈúÄÂÖ≥Èó≠Êñá‰ª∂ÊèèËø∞Á¨¶ÂíåÁΩëÁªúÂ•óÊé•Â≠ó */
 
     return 0;
 }
@@ -90,7 +88,7 @@ static int server(void)
 
 static int client(void)
 {
-    /* 1.¥¥Ω®Ã◊Ω”◊÷ */
+    /* 1.ÂàõÂª∫Â•óÊé•Â≠ó */
 	int fd = -1, ret = -1;
 	fd = socket(AF_INET, SOCK_STREAM, 0);
     if(-1 == fd)
@@ -99,14 +97,14 @@ static int client(void)
         return -1;
     }
 
-    /* 2.¡¨Ω”∑˛ŒÒ∂À */
+    /* 2.ËøûÊé•ÊúçÂä°Á´Ø */
     
-    //¥¥Ω®sockaddr_inΩ·ππÃÂ±‰¡ø
+    //ÂàõÂª∫sockaddr_inÁªìÊûÑ‰ΩìÂèòÈáè
     struct sockaddr_in serv_addr;
     memset(&serv_addr, 0, sizeof(serv_addr));
-    serv_addr.sin_family = AF_INET;  // π”√IPv4µÿ÷∑
-    serv_addr.sin_addr.s_addr = inet_addr(SER_IP);  //∞—µ„∑÷∏Ò ΩµƒIPµÿ÷∑Ω¯––◊™ªª
-    serv_addr.sin_port = htons(SERV_PORT);  //∞—±æµÿ◊÷Ω⁄–Úµƒ∂Àø⁄∫≈◊™ªªŒ™Õ¯¬Á◊÷Ω⁄–Ú
+    serv_addr.sin_family = AF_INET;  //‰ΩøÁî®IPv4Âú∞ÂùÄ
+    serv_addr.sin_addr.s_addr = inet_addr(SER_IP);  //ÊääÁÇπÂàÜÊ†ºÂºèÁöÑIPÂú∞ÂùÄËøõË°åËΩ¨Êç¢
+    serv_addr.sin_port = htons(SERV_PORT);  //ÊääÊú¨Âú∞Â≠óËäÇÂ∫èÁöÑÁ´ØÂè£Âè∑ËΩ¨Êç¢‰∏∫ÁΩëÁªúÂ≠óËäÇÂ∫è
     ret = connect(fd, (struct sockaddr *)&serv_addr, sizeof(struct sockaddr));
     if(-1 == ret)
     {
@@ -114,7 +112,7 @@ static int client(void)
         return -1;
     }
     
-    /* 3.∏¯øÕªß∂À∑¢ÀÕ ˝æ› */
+    /* 3.ÁªôÂÆ¢Êà∑Á´ØÂèëÈÄÅÊï∞ÊçÆ */
     while(1)
     {
         do{
@@ -128,7 +126,7 @@ static int client(void)
 
     }
 
-    /* 6. ∞¥–Ëπÿ±’Œƒº˛√Ë ˆ∑˚∫ÕÕ¯¬ÁÃ◊Ω”◊÷º¥ø… */
+    /* 6. ÊåâÈúÄÂÖ≥Èó≠Êñá‰ª∂ÊèèËø∞Á¨¶ÂíåÁΩëÁªúÂ•óÊé•Â≠óÂç≥ÂèØ */
     
     return 0;
 }
@@ -139,7 +137,7 @@ static int file_ops(void)
     FILE *fp = NULL;
     int ret = 0;
     char buf[1024] = {0};
-    fp = fopen("/home/leyaoyao.txt", "w+");//¥Úø™Œƒº˛≤¢«Âø’»ª∫Û‘ŸΩ¯––∂¡–¥£¨Œƒº˛≤ª¥Ê‘⁄‘Ú¥¥Ω®
+    fp = fopen("/home/leyaoyao.txt", "w+");//ÊâìÂºÄÊñá‰ª∂Âπ∂Ê∏ÖÁ©∫ÁÑ∂ÂêéÂÜçËøõË°åËØªÂÜôÔºåÊñá‰ª∂‰∏çÂ≠òÂú®ÂàôÂàõÂª∫
     if(NULL == fp)
     {
         perror("fopen");
@@ -148,16 +146,16 @@ static int file_ops(void)
     ret = fwrite("file test123456789", 1, strlen("file test123456789"),fp);
     if(ret > 0)
     {
-        //÷§√˜Œƒº˛“—æ≠–¥»Î¡À
+        //ËØÅÊòéÊñá‰ª∂Â∑≤ÁªèÂÜôÂÖ•‰∫Ü
         printf("fwrite success,ret = %d\n", ret);
     }
     else
     {
         perror("fwrite error\n");
     }
-    fflush(fp);//À¢–¬ª∫≥Â«¯±„”⁄∫Û√ÊΩ¯––∂¡≤Ÿ◊˜
+    fflush(fp);//Âà∑Êñ∞ÁºìÂÜ≤Âå∫‰æø‰∫éÂêéÈù¢ËøõË°åËØªÊìç‰Ωú
 
-    //Œƒº˛÷∏’Î“∆∂ØµΩø™Õ∑
+    //Êñá‰ª∂ÊåáÈíàÁßªÂä®Âà∞ÂºÄÂ§¥
     if(ftell(fp) > 0)
     {
         fseek(fp, 0L, SEEK_SET);
@@ -166,7 +164,7 @@ static int file_ops(void)
     ret = fread(buf, 1, sizeof(buf), fp);
     if(ret > 0)
     {
-        //÷§√˜Œƒº˛“—æ≠∂¡µΩ¡À
+        //ËØÅÊòéÊñá‰ª∂Â∑≤ÁªèËØªÂà∞‰∫Ü
         printf("[fread success]:%s\n",buf);
     }
     else
@@ -181,42 +179,42 @@ static int file_ops(void)
 static int gpio_ops(void)
 {
 #if 0
-    “‘œ¬Àƒ∏ˆ∫Ø ˝ø…“‘≤Ÿ◊˜GPIO
-    //1. πƒ‹GPIO£¨≤¢…Ë÷√«˝∂Ø∑ΩœÚ
+    ‰ª•‰∏ãÂõõ‰∏™ÂáΩÊï∞ÂèØ‰ª•Êìç‰ΩúGPIO
+    //1.‰ΩøËÉΩGPIOÔºåÂπ∂ËÆæÁΩÆÈ©±Âä®ÊñπÂêë
     int32_t fibo_gpio_cfg(uint8_t pinNum, gpio_PinMode_t mode)
     
-    //2.…Ë÷√GPIOµƒ÷µ
+    //2.ËÆæÁΩÆGPIOÁöÑÂÄº
     int32_t fibo_gpio_set(uint8_t pinNum, gpio_Level_t level)
     
-    //ªÚ’ﬂ∂¡»°GPIOµƒ÷µ
+    //ÊàñËÄÖËØªÂèñGPIOÁöÑÂÄº
     int32_t fibo_gpio_get(uint8_t pinNum, gpio_Level_t * level)
 
-    //3.»• πƒ‹GPIO£¨√ø¥Œ∂‘GPIO≤Ÿ◊˜ÕÍ≥…∫ÛΩ¯––»• πƒ‹
+    //3.Âéª‰ΩøËÉΩGPIOÔºåÊØèÊ¨°ÂØπGPIOÊìç‰ΩúÂÆåÊàêÂêéËøõË°åÂéª‰ΩøËÉΩ
     int32_t fibo_gpio_uncfg(uint8_t pinNum)
 #endif
     return 0;
 }
 
 
-//uart,∑¢ÀÕ“ªÃı ˝æ›£¨≤¢µ»¥˝Ω” ‹ ˝æ›
+//uart,ÂèëÈÄÅ‰∏ÄÊù°Êï∞ÊçÆÔºåÂπ∂Á≠âÂæÖÊé•ÂèóÊï∞ÊçÆ
 static int uart_ops(void)
 {
     int fd = -1, ret = -1;;
     char buf[1024] = {0};
 
-    /* UART≤Ÿ◊˜ «÷±Ω”¥Úø™…Ë±∏Ω⁄µ„Ω¯––∂¡–¥º¥ø… */
-    fd = open("/dev/ttyS0", O_RDWR);//“‘∂¡–¥µƒ∑Ω Ω¥Úø™…Ë±∏Ω⁄µ„
+    /* UARTÊìç‰ΩúÊòØÁõ¥Êé•ÊâìÂºÄËÆæÂ§áËäÇÁÇπËøõË°åËØªÂÜôÂç≥ÂèØ */
+    fd = open("/dev/ttyS0", O_RDWR);//‰ª•ËØªÂÜôÁöÑÊñπÂºèÊâìÂºÄËÆæÂ§áËäÇÁÇπ
     if(-1 == fd)
     {
         perror("open");
     }
 
-    //œÚUART–¥ ˝æ›£¨ π”√¥Æø⁄π§æﬂø…“‘ø¥µΩ¥Ú”°
+    //ÂêëUARTÂÜôÊï∞ÊçÆÔºå‰ΩøÁî®‰∏≤Âè£Â∑•ÂÖ∑ÂèØ‰ª•ÁúãÂà∞ÊâìÂç∞
     write(fd , "le yao yao uart1 test\n", 22);
 
     while(1)
     {
-        //¥”UART∂¡ ˝æ›
+        //‰ªéUARTËØªÊï∞ÊçÆ
         ret = read(fd, buf, 1024);
         if(ret > 0)
         {
@@ -235,7 +233,7 @@ int main(int argc, char **argv)
     fpid = fork();
     if(-1 == fpid)
     {
-        printf("1.fork error£¨exit\n");
+        printf("1.fork errorÔºåexit\n");
         exit(EXIT_FAILURE);
     }
 
